@@ -11,5 +11,8 @@ The default BuddyPress installation allows members of a group to post directly t
 
 == Changelog ==
 
+= 1.0.1 =
+* Make sure that only activity updates appear on the Announcements tab
+
 = 1.0 =
 * Initial release

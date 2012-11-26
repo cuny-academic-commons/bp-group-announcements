@@ -40,6 +40,9 @@ class BP_Group_Announcements extends BP_Group_Extension {
 		// Because this isn't the group home page, we have to ensure
 		// that 'groups' is passed as the object type with the post form
 		add_action( 'bp_activity_post_form_options', array( $this, 'object_input' ) );
+
+		// Make sure that only announcements show up on that page
+		add_filter( 'bp_ajax_querystring', array( $this, 'filter_querystring' ), 9999 );
 	}
 
 	/**
@@ -89,6 +92,22 @@ class BP_Group_Announcements extends BP_Group_Extension {
 			echo '<input type="hidden" id="whats-new-post-object" name="whats-new-post-object" value="groups" />';
 			echo '<input type="hidden" id="whats-new-post-in" name="whats-new-post-in" value="' . bp_get_group_id() . '" />';
 		}
+	}
+
+	/**
+	 * Make sure that the Announcement tab shows only updates
+	 *
+	 * @since 1.0.1
+	 */
+	public static function filter_querystring( $qs ) {
+		if ( bp_is_group() && bp_is_current_action( bpga_get_slug() ) ) {
+			if ( '' != $qs ) {
+				$qs .= '&';
+			}
+			$qs .= 'type=activity_update&action=activity_update';
+		}
+
+		return $qs;
 	}
 }
 
