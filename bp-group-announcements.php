@@ -28,6 +28,10 @@ class BP_Group_Announcements extends BP_Group_Extension {
 	 * @since 1.0
 	 * */
 	public function __construct() {
+		// localization
+		$this->localization();
+
+		// extension variables
 		$this->name = __( 'Announcements', 'bpga' );
 		$this->slug = bpga_get_slug();
 
@@ -108,6 +112,40 @@ class BP_Group_Announcements extends BP_Group_Extension {
 		}
 
 		return $qs;
+	}
+
+	/**
+	 * Custom textdomain loader.
+	 *
+	 * Checks WP_LANG_DIR for the .mo file first, then the plugin's language folder.
+	 * Allows for a custom language file other than those packaged with the plugin.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @uses get_locale() To get the current locale
+	 * @uses load_textdomain() Loads a .mo file into WP
+	 * @return bool True on success, false on failure
+	 */
+	public function localization() {
+		// Use the WP plugin locale filter from load_plugin_textdomain()
+		$locale        = apply_filters( 'plugin_locale', get_locale(), 'bpga' );
+		$mofile        = sprintf( '%1$s-%2$s.mo', 'bpga', $locale );
+
+		$mofile_global = trailingslashit( constant( 'WP_LANG_DIR' ) ) . $mofile;
+		$mofile_local  = trailingslashit( dirname( __FILE__ ) ) . 'languages/' . $mofile;
+
+		// look in /wp-content/languages/ first
+		if ( is_readable( $mofile_global ) ) {
+			return load_textdomain( 'bpga', $mofile_global );
+
+		// if that doesn't exist, check for bundled language file
+		} elseif ( is_readable( $mofile_local ) ) {
+			return load_textdomain( 'bpga', $mofile_local );
+
+		// no language file exists
+		} else {
+			return false;
+		}
 	}
 }
 
