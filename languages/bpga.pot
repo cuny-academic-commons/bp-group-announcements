@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BP Group Announcements\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-22 19:50-0800\n"
+"PO-Revision-Date: 2013-01-22 19:53-0800\n"
+"Last-Translator: r-a-y <r-a-y@gmx.com>\n"
+"Language-Team: CBOX <wordpress@commons.gc.cuny.edu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext;_n;_n_noop;_x;_nx;_nx_noop;_ex;esc_attr__;esc_attr_e;esc_attr_x;esc_html__;esc_html_e;esc_html_x;_c\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: bp-group-announcements.php:35
+#: bp-group-announcements.php:67
+msgid "Announcements"
+msgstr ""
+
+#: bp-group-announcements.php:69
+msgid "On this page, you&#8217;ll see announcements that administrators and moderators have left for the group."
+msgstr ""
+
+#: bp-group-announcements.php:73
+msgid "administrator"
+msgstr ""
+
+#: bp-group-announcements.php:73
+msgid "moderator"
+msgstr ""
+
+#: bp-group-announcements.php:74
+#, php-format
+msgid "As %1$s in %2$s, you can post announcements to the group&#8217;s activity stream."
+msgstr ""
+
