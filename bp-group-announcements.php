@@ -39,11 +39,19 @@ class BP_Group_Announcements extends BP_Group_Extension {
 
 		// Disable the activity update form on the group home page. Props r-a-y
 		add_action( 'bp_before_group_activity_post_form', create_function( '', 'ob_start();' ), 9999 );
-		add_action( 'bp_after_group_activity_post_form', create_function( '', 'ob_end_clean();' ), 0 );
+		add_action( 'bp_after_group_activity_post_form',  create_function( '', 'ob_end_clean();' ), 0 );
 
 		// Because this isn't the group home page, we have to ensure
 		// that 'groups' is passed as the object type with the post form
 		add_action( 'bp_activity_post_form_options', array( $this, 'object_input' ) );
+
+		// In the activity directory post form, there is a dropdown menu allowing
+		// users to select the group to post their update in
+		//
+		// We don't want non-admins to be able to post in groups, so we blank out the
+		// groups by returning false in bp_has_groups()
+		add_action( 'bp_before_activity_post_form', array( $this, 'remove_groups' ) );
+		add_action( 'bp_after_activity_post_form',  array( $this, 'restore_groups' ) );
 
 		// Make sure that only announcements show up on that page
 		add_filter( 'bp_ajax_querystring', array( $this, 'filter_querystring' ), 9999 );
@@ -146,6 +154,43 @@ class BP_Group_Announcements extends BP_Group_Extension {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Return no groups for the logged-in user when on the activity directory's
+	 * post form.
+	 *
+	 * This is done so no groups can be listed under the post form dropdown menu.
+	 *
+	 * Note: This only occurs for users without the 'bp_moderate' capability.
+	 * We don't do checks for group admins or mods as that would be intensive.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @uses current_user_can() To see if the current user can do something
+	 */
+	public function remove_groups() {
+		if ( ! bp_current_user_can( 'bp_moderate' ) )
+			add_filter( 'bp_has_groups', '__return_false', 1, 1 );
+	}
+
+	/**
+	 * Restore groups for the logged-in user after the activity directory post
+	 * form.
+	 *
+	 * This is to prevent any unintended behavior when returning false for
+	 * bp_has_groups().
+	 *
+	 * Note: We restore groups for users without the 'bp_moderate' capability.
+	 *
+	 * @since 1.0.2
+	 *
+	 * @uses current_user_can() To see if the current user can do something
+	 * @see BP_Group_Announcements::remove_groups()
+	 */
+	public function restore_groups() {
+		if ( ! bp_current_user_can( 'bp_moderate' ) )
+			remove_filter( 'bp_has_groups', '__return_false', 1, 1 );
 	}
 }
 
