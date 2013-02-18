@@ -1,7 +1,7 @@
 === BP Group Announcements ===
 Contributors: boonebgorges, r-a-y, cuny-academic-commons
 Tags: buddypress, announcements, groups, activity
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 
 Moves group activity posting to an admins-only Announcements tab
 
