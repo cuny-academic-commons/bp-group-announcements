@@ -81,12 +81,12 @@ class BP_Group_Announcements extends BP_Group_Extension {
 			<?php $group_role = bp_group_is_admin() || bp_current_user_can( 'bp_moderate' ) ? __( 'administrator', 'bpga' ) : __( 'moderator', 'bpga' ) ?>
 			<p><?php printf( __( 'As %1$s in %2$s, you can post announcements to the group&#8217;s activity stream.', 'bpga' ), $group_role, bp_get_group_name() ) ?></p>
 
-			<?php locate_template( array( 'activity/post-form.php'), true ) ?>
+			<?php bp_locate_template( array( 'activity/post-form.php'), true ) ?>
 
 		<?php endif ?>
 
 		<div class="activity single-group">
-			<?php locate_template( array( 'activity/activity-loop.php' ), true ) ?>
+			<?php bp_locate_template( array( 'activity/activity-loop.php' ), true ) ?>
 		</div>
 
 		<?php
