@@ -11,6 +11,9 @@ The default BuddyPress installation allows members of a group to post directly t
 
 == Changelog ==
 
+= 1.0.3 =
+* Fixes display issue on the "Announcements" tab for themes using BP's built-in theme compatibility.
+
 = 1.0.2 =
 * Makes plugin localizable
 
