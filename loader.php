@@ -4,7 +4,7 @@ Plugin Name: BP Group Announcements
 Description: Disables activity updates on group home pages in favor of an admins-only Announcements tab
 Author: Boone B Gorges
 Author URI: http://boone.gorg.es
-Version: 1.0.3
+Version: 1.0.4
 */
 
 function bpga_loader() {
