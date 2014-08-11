@@ -58,6 +58,9 @@ class BP_Group_Announcements extends BP_Group_Extension {
 
 		// disable RBE - we don't support replying to group announcements via email
 		add_filter( 'bp_rbe_block_activity_item', array( $this, 'disable_rbe' ), 20, 2 );
+
+		// disable activity commenting on group announcements
+		add_filter( 'bp_activity_can_comment', array( $this, 'disable_activity_comments' ) );
 	}
 
 	/**
@@ -203,6 +206,7 @@ class BP_Group_Announcements extends BP_Group_Extension {
 	 *
 	 * @param bool $retval
 	 * @param BP_Activity_Activity $activity
+	 * @return bool
 	 */
 	public function disable_rbe( $retval, $activity ) {
 		if ( ! bp_is_current_action( 'announcements' ) ) {
@@ -220,6 +224,26 @@ class BP_Group_Announcements extends BP_Group_Extension {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Disable activity commenting for group announcements.
+	 *
+	 * @since 1.0.4
+	 *
+	 * @param bool $retval
+	 * @return bool
+	 */
+	public function disable_activity_comments( $retval ) {
+		if ( ! bp_is_current_action( 'announcements' ) ) {
+			return $retval;
+		}
+
+		if ( ! bp_is_group() ) {
+			return $retval;
+		}
+
+		return false;
 	}
 }
 
