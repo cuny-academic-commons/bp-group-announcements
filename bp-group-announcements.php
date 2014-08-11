@@ -55,6 +55,9 @@ class BP_Group_Announcements extends BP_Group_Extension {
 
 		// Make sure that only announcements show up on that page
 		add_filter( 'bp_ajax_querystring', array( $this, 'filter_querystring' ), 9999 );
+
+		// disable RBE - we don't support replying to group announcements via email
+		add_filter( 'bp_rbe_block_activity_item', array( $this, 'disable_rbe' ), 20, 2 );
 	}
 
 	/**
@@ -191,6 +194,32 @@ class BP_Group_Announcements extends BP_Group_Extension {
 	public function restore_groups() {
 		if ( ! bp_current_user_can( 'bp_moderate' ) )
 			remove_filter( 'bp_has_groups', '__return_false', 1, 1 );
+	}
+
+	/**
+	 * Disable Reply By Email header injection for group announcements.
+	 *
+	 * @since 1.0.4
+	 *
+	 * @param bool $retval
+	 * @param BP_Activity_Activity $activity
+	 */
+	public function disable_rbe( $retval, $activity ) {
+		if ( ! bp_is_current_action( 'announcements' ) ) {
+			return $retval;
+		}
+
+		// not a group activity item? stop!
+		if ( $activity->component != 'groups' ) {
+			return $retval;
+		}
+
+		// not an activity update? stop!
+		if ( $activity->type != 'activity_update' ) {
+			return $retval;
+		}
+
+		return true;
 	}
 }
 
