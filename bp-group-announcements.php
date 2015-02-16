@@ -67,8 +67,10 @@ class BP_Group_Announcements extends BP_Group_Extension {
 	 * Display the content of the Announcements tab
 	 *
 	 * @since 1.0
+	 *
+	 * @param int $group_id Available only on BP 2.2+.
 	 */
-	public function display() {
+	public function display( $group_id = null ) {
 
 		if ( bp_group_is_admin() || bp_current_user_can( 'bp_moderate' ) ) {
 			$group_role = 'an administrator';
