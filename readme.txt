@@ -1,7 +1,7 @@
 === BP Group Announcements ===
 Contributors: boonebgorges, r-a-y, cuny-academic-commons
 Tags: buddypress, announcements, groups, activity
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 
 Moves group activity posting to an admins-only Announcements tab
 
@@ -10,6 +10,9 @@ Moves group activity posting to an admins-only Announcements tab
 The default BuddyPress installation allows members of a group to post directly to that group's activity stream. In cases where groups are also using traditional discussion forums, this can result in some confusion and bifurcation of discussion. This plugin removes the What's New post form from group home pages, and adds a new Announcements tab to groups. On the Announcements tab, all users can see updates to the group, and admins/mods can post new updates.
 
 == Changelog ==
+
+= 1.0.5 =
+* Fix strict standards notice when using BuddyPress 2.2+
 
 = 1.0.4 =
 * Disable activity commenting for group announcements
