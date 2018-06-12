@@ -38,8 +38,8 @@ class BP_Group_Announcements extends BP_Group_Extension {
 		$this->nav_item_position = 13;
 
 		// Disable the activity update form on the group home page. Props r-a-y
-		add_action( 'bp_before_group_activity_post_form', create_function( '', 'ob_start();' ), 9999 );
-		add_action( 'bp_after_group_activity_post_form',  create_function( '', 'ob_end_clean();' ), 0 );
+		add_action( 'bp_before_group_activity_post_form', function() { ob_start(); }, 9999 );
+		add_action( 'bp_after_group_activity_post_form',  function() { ob_end_clean(); }, 0 );
 
 		// Because this isn't the group home page, we have to ensure
 		// that 'groups' is passed as the object type with the post form
