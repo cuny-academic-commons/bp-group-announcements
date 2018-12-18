@@ -63,21 +63,57 @@ class BP_Group_Announcements extends BP_Group_Extension {
 		add_filter( 'bp_activity_can_comment', array( $this, 'disable_activity_comments' ) );
 
 		// Fake BP into thinking this is the group activity tab.
-		add_action( 'bp_is_current_component',
+		add_filter(
+			'bp_is_current_component',
 			function( $is, $component ) {
 				if ( 'activity' !== $component ) {
 					return $is;
 				}
 
+				remove_filter( 'bp_current_action', array( __CLASS__, 'action_filter_callback' ) );
 				if ( ! bp_is_groups_component() || ! bp_is_current_action( 'announcements' ) ) {
 					return $is;
 				}
+				add_filter( 'bp_current_action', array( __CLASS__, 'action_filter_callback' ) );
 
 				return true;
 			},
 			10,
 			2
 		);
+
+		// Fake BP into thinking that this is the activity directory, for AJAX.
+		add_filter( 'bp_current_action', array( __CLASS__, 'action_filter_callback' ) );
+	}
+
+	/**
+	 * Action filter callback.
+	 */
+	public static function action_filter_callback( $action ) {
+		remove_filter( 'bp_current_action', array( __CLASS__, 'action_filter_callback' ) );
+
+		if ( ! bp_is_groups_component() || ! bp_is_current_action( 'announcements' ) ) {
+			return $action;
+		}
+
+		if ( ! wp_doing_ajax() ) {
+			return $action;
+		}
+
+		$db = debug_backtrace();
+		$is = false;
+		foreach ( $db as $_db ) {
+			if ( 'bp_nouveau_ajax_post_update' === $_db['function'] ) {
+				$is = true;
+				break;
+			}
+		}
+
+		if ( $is ) {
+			return '';
+		}
+
+		return $action;
 	}
 
 	/**
