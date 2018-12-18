@@ -61,6 +61,23 @@ class BP_Group_Announcements extends BP_Group_Extension {
 
 		// disable activity commenting on group announcements
 		add_filter( 'bp_activity_can_comment', array( $this, 'disable_activity_comments' ) );
+
+		// Fake BP into thinking this is the group activity tab.
+		add_action( 'bp_is_current_component',
+			function( $is, $component ) {
+				if ( 'activity' !== $component ) {
+					return $is;
+				}
+
+				if ( ! bp_is_groups_component() || ! bp_is_current_action( 'announcements' ) ) {
+					return $is;
+				}
+
+				return true;
+			},
+			10,
+			2
+		);
 	}
 
 	/**
